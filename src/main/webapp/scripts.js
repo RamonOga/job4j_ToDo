@@ -1,4 +1,4 @@
-function getItemsAj () {
+function getAllItems (bool) {
     $.ajax({
         url : "http://localhost:8080/job4j_todo/index",
         async: true,
@@ -16,6 +16,11 @@ function getItemsAj () {
                 let created = data[i]['created'];
                 let desc = item['description'];
                 let done = item['done'];
+
+                if (bool && !done) {
+                    continue;
+                }
+
                 if (done) {
                     img = '<img src="img/true.png" width="15" height="15">';
                 } else {
@@ -27,6 +32,7 @@ function getItemsAj () {
                     '<td>' + created +  '</td>' +
                     '<td>' + img +  '</td>';
                 thead.appendChild(tr);
+
             }
         }
     });
@@ -45,3 +51,15 @@ function sendData() {
 
     });
 };
+
+function checkCheckbox() {
+    console.log("start checkCheckbox");
+    const checkbox = document.querySelector('#checkbox');
+    if ( checkbox.checked ) {
+        console.log("to getAllItem with " + true) ;
+        getAllItems(true);
+    } else {
+        console.log("to getAllItem with " + false) ;
+        getAllItems(false);
+    }
+}

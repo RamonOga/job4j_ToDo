@@ -81,6 +81,7 @@ public class HbrStore implements Store {
             if (item == null) {
                 throw new NoSuchElementException("Item with ID " + id + "not found!");
             }
+            item.setDoneTrue();
             LOG.info("\nItem With Id?= " + id + " Is Successfully Done!\n");
             session.update(item);
             transaction.commit();

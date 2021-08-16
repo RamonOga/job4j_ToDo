@@ -28,12 +28,6 @@
     <div class="form-group">
         <label for="description">Description</label>
         <input type="text" class="form-control" id="description">
-        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-    </div>
-
-    <div class="form-group form-check">
-        <input type="checkbox" class="form-check-input" id="exampleCheck1" value="true">
-        <label class="form-check-label" for="exampleCheck1">Check me out</label>
     </div>
 
     <button type="submit" class="btn btn-primary" onclick="sendData()">Submit</button>
@@ -41,6 +35,10 @@
 </div>
 
 <div class="container">
+    <div class="form-group form-check">
+        <input type="checkbox" id="checkbox" onclick="return checkCheckbox();"> показать все </input>
+    </div>
+
   <table id="table" class="table table-bordered" style="width:100%">
       <thead>
       <tr>
@@ -56,7 +54,8 @@
 </div>
 
 <script>
-    getItemsAj();
+    checkCheckbox()
 </script>
+
 </body>
 </html>

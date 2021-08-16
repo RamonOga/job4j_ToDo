@@ -7,9 +7,9 @@ import java.sql.Timestamp;
 public class Runner {
     public static void main(String[] args) {
         Store store = HbrStore.instOf();
-        add(store);
-       /* done(store);
-        findAll(store);
+        /*add(store);*/
+        done(store);
+       /* findAll(store);
         findAll(store);
         findById(store);
         delete(store);*/
@@ -20,7 +20,7 @@ public class Runner {
     }
 
     public static void done(Store store) {
-        store.done("1");
+        store.done("18");
     }
 
     public static void findAll(Store store) {

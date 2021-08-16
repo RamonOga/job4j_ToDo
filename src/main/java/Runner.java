@@ -8,15 +8,15 @@ public class Runner {
     public static void main(String[] args) {
         Store store = HbrStore.instOf();
         add(store);
-        done(store);
+       /* done(store);
         findAll(store);
         findAll(store);
         findById(store);
-        delete(store);
+        delete(store);*/
     }
 
     public static void add(Store store) {
-        store.add(new Item(0, "desc1"));
+        store.add(new Item(0, "desc33"));
     }
 
     public static void done(Store store) {

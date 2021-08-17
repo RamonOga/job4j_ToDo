@@ -19,10 +19,10 @@ import java.util.Map;
 public class IndexServlet extends HttpServlet {
 
     private static final Gson GSON = new GsonBuilder().create();
-    private static final Store store = HbrStore.instOf();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Store store = HbrStore.instOf();
         String json = GSON.toJson(store.findAll());
         OutputStream out = resp.getOutputStream();
         out.write(json.getBytes(StandardCharsets.UTF_8));

@@ -1,5 +1,5 @@
 function getAllItems (bool) {
-    console.log("start getAllItems");
+   // console.log("start getAllItems");
 
     $.ajax({
         url : "http://localhost:8080/job4j_todo/index",
@@ -7,7 +7,7 @@ function getAllItems (bool) {
         method : "GET",
         dataType : "json",
         success : function (data) {
-            $("table tr").remove(); // чистим таблицу
+            $("table td").remove(); // чистим таблицу
             const table = document.querySelector('.table');
             const thead = table.querySelector('thead')
 
@@ -18,25 +18,38 @@ function getAllItems (bool) {
                 let created = data[i]['created'];
                 let desc = item['description'];
                 let done = item['done'];
-
+                let button;
                 if (bool && done) { // если стоит checkbar _не отсеиваем_ выполненые заяки
                     continue;
                 }
 
                 if (done) { // грузим соответсвтующую картинку
+                    button = ''
                     img = '<img src="img/true.png" width="15" height="15">';
                 } else {
+                    button = '<button type="submit" class="btn btn-primary" onclick="doneItem(' + id + ')">Done</button>'
                     img = '<img src="img/false.png" width="15" height="15">';
                 }
                 let tr = document.createElement('tr'); // заполняем таблицу
                 tr.innerHTML = '<td>' + id + '</td>' +
                     '<td>' + desc +  '</td>'+
                     '<td>' + created +  '</td>' +
-                    '<td>' + img +  '</td>';
+                    '<td>' + img +  '</td>' +
+                    '<td>' + button +  '</td>';
                 thead.appendChild(tr);
 
             }
         }
+    });
+}
+
+function doneItem(id) {
+    console.log("start DoneItem");
+    $.ajax ({
+        url: "http://localhost:8080/job4j_todo/done",
+        dataType: "json",
+        method: "POST",
+        data: {id : id},
     });
 }
 
@@ -48,21 +61,18 @@ function sendData() { // отправка данных заявки
         dataType: "json",
         method: "POST",
         data: {description : description},
-    }).done(function () {
-
-    }).fail(function (err) {
-
     });
-};
+}
 
-function checkCheckbox() { // проверка стит ли checkbar
-    console.log("start checkCheckbox");
+function checkCheckbox() { // проверка стоит ли checkbar
+    //console.log("start checkCheckbox");
     const checkbox = document.querySelector('#checkbox');
     if (checkbox.checked) {
-        console.log("to getAllItem with " + false) ;
+       // console.log("to getAllItem with " + false) ;
         getAllItems(false);
     } else {
-        console.log("to getAllItem with " + true) ;
+       // console.log("to getAllItem with " + true) ;
         getAllItems(true);
     }
 }
+

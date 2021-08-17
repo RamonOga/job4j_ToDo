@@ -1,11 +1,13 @@
 function getAllItems (bool) {
+    console.log("start getAllItems");
+
     $.ajax({
         url : "http://localhost:8080/job4j_todo/index",
         async: true,
         method : "GET",
         dataType : "json",
         success : function (data) {
-
+            $("table tr").remove(); // чистим таблицу
             const table = document.querySelector('.table');
             const thead = table.querySelector('thead')
 
@@ -17,16 +19,16 @@ function getAllItems (bool) {
                 let desc = item['description'];
                 let done = item['done'];
 
-                if (bool && !done) {
+                if (bool && done) { // если стоит checkbar _не отсеиваем_ выполненые заяки
                     continue;
                 }
 
-                if (done) {
+                if (done) { // грузим соответсвтующую картинку
                     img = '<img src="img/true.png" width="15" height="15">';
                 } else {
                     img = '<img src="img/false.png" width="15" height="15">';
                 }
-                let tr = document.createElement('tr');
+                let tr = document.createElement('tr'); // заполняем таблицу
                 tr.innerHTML = '<td>' + id + '</td>' +
                     '<td>' + desc +  '</td>'+
                     '<td>' + created +  '</td>' +
@@ -38,7 +40,8 @@ function getAllItems (bool) {
     });
 }
 
-function sendData() {
+function sendData() { // отправка данных заявки
+    console.log("start sendData");
     let description = $('#description').val();
     $.ajax ({
         url: "http://localhost:8080/job4j_todo/index",
@@ -52,14 +55,14 @@ function sendData() {
     });
 };
 
-function checkCheckbox() {
+function checkCheckbox() { // проверка стит ли checkbar
     console.log("start checkCheckbox");
     const checkbox = document.querySelector('#checkbox');
-    if ( checkbox.checked ) {
-        console.log("to getAllItem with " + true) ;
-        getAllItems(true);
-    } else {
+    if (checkbox.checked) {
         console.log("to getAllItem with " + false) ;
         getAllItems(false);
+    } else {
+        console.log("to getAllItem with " + true) ;
+        getAllItems(true);
     }
 }

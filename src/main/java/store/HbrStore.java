@@ -11,6 +11,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Function;
 
 import org.apache.logging.log4j.Logger;
 
@@ -29,106 +30,72 @@ public class HbrStore implements Store {
     }
 
     @Override
-    public boolean add(Item item) {
-        Transaction transaction = null;
-        boolean rsl = false;
-        try (Session session = sf.openSession()) {
-            transaction = session.beginTransaction();
-            session.save(item);
-            transaction.commit();
-            LOG.info("\nSuccessfully Created '" + item + "' Records In The Database!\n");
-            rsl = true;
-        } catch (Exception e) {
-            LOG.info("\n.......Transaction Is Being Rolled Back.......\n");
-            LOG.error(e.getMessage());
-            if (transaction != null) {
-                transaction.rollback();
-            }
+    public List<Item> findAll() {
+        return this.tx((a) -> a.createQuery("from model.Item", Item.class).list(), "findAll");
+    }
 
-        }
-        return rsl;
+    @Override
+    public boolean add(Item item) {
+        int id = item.getId();
+        String message = "Add with argument '" + item + "'";
+        return this.tx(a -> {
+            a.save(item);
+            return id != item.getId();
+        }, message);
     }
 
     @Override
     public boolean delete(String id) {
-        Transaction transaction = null;
-        boolean rsl = false;
-        try (Session session = sf.openSession()) {
-            transaction = session.beginTransaction();
-            Item item = session.get(Item.class, Integer.parseInt(id));
-            session.delete(item);
-            transaction.commit();
-            LOG.info("\nItem With Id?= " + id + " Is Successfully Deleted From The Database!\n");
-            rsl = true;
-        } catch (Exception e) {
-            LOG.info("\n.......Transaction Is Being Rolled Back.......\n");
-            LOG.error(e.getMessage());
-            if (transaction != null) {
-                transaction.rollback();
-            }
-
-
-        }
-        return rsl;
-    }
-
-    @Override
-    public void done(String id) {
-        Transaction transaction = null;
-        try (Session session = sf.openSession()) {
-            transaction = session.beginTransaction();
-            Item item = session.get(Item.class, Integer.parseInt(id));
-            if (item == null) {
-                throw new NoSuchElementException("Item with ID " + id + "not found!");
-            }
-            item.setDoneTrue();
-            LOG.info("\nItem With Id?= " + id + " Is Successfully Done!\n");
-            session.update(item);
-            transaction.commit();
-        } catch (Exception e) {
-            LOG.info("\n.......Transaction Is Being Rolled Back.......\n");
-            LOG.error(e.getMessage());
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
+        String message = "Delete with argument '" + id + "'";
+        return this.tx((a)-> {
+                    Item item = a.get(Item.class, Integer.parseInt(id));
+                    a.delete(item);
+                    return true;
+                }, message);
     }
 
     @Override
     public Item findById(String id) {
-        Item item = null;
-        Transaction transaction = null;
-        try (Session session = sf.openSession()) {
-            transaction = session.beginTransaction();
-            item = session.get(Item.class, Integer.parseInt(id));
-            transaction.commit();
-        } catch (Exception e) {
-            LOG.info("\n.......Transaction Is Being Rolled Back.......\n");
-            LOG.error(e.getMessage());
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return item;
+        String message = "findById this argument by '" + id + "'";
+            return this.tx((session) -> session.get(Item.class, Integer.parseInt(id)), message);
+
     }
 
+
+
     @Override
-    public List<Item> findAll() {
-        List<Item> rsl = null;
+    public void done(String id) {
+        String message = "Update with argument by '" + id + "'";
+        this.tx(session -> {
+            Item item = session.get(Item.class, Integer.parseInt(id));
+        if (item == null) {
+            throw new NoSuchElementException("Item with ID " + id + "not found!");
+        }
+        item.setDoneTrue();
+        session.update(item);
+        return item;
+        }, message);
+    }
+
+    private <T> T tx(final Function<Session, T> command, String message) {
         Transaction transaction = null;
-        try (Session session = sf.openSession()) {
+        try(Session session = sf.openSession()) {
             transaction = session.beginTransaction();
-            rsl = session.createQuery("from model.Item", Item.class).list();
+            T rsl = command.apply(session);
+            LOG.info("\nOperation " + message + " completed successfully!\n");
             transaction.commit();
-        } catch (Exception e) {
-            LOG.info("\n.......Transaction Is Being Rolled Back.......\n");
-            LOG.error(e.getMessage());
+            return rsl;
+        } catch (final Exception e) {
             if (transaction != null) {
                 transaction.rollback();
+                LOG.info("\n.......Transaction Is Being Rolled Back.......\n");
             }
+            LOG.error(e.getMessage());
+            throw e;
         }
-        return rsl;
     }
+
+
 
     private static final class LAZY {
         private static final Store INST = new HbrStore();

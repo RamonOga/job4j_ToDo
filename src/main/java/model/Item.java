@@ -5,15 +5,23 @@ import java.sql.Timestamp;
 @Entity
 @Table(name="item")
 public class Item {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    private int id;
+
     @Column(name="discription")
-    String description;
+    private String description;
+
     @Column(name="created")
-    Timestamp created;
+    private Timestamp created;
+
     @Column(name="done")
-    boolean done;
+    private boolean done;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Item() {
     }

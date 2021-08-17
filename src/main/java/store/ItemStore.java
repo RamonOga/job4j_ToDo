@@ -4,7 +4,7 @@ import model.Item;
 
 import java.util.List;
 
-public interface Store {
+public interface ItemStore {
     boolean add(Item item);
 
     boolean delete(String id);

@@ -15,31 +15,23 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.Logger;
 
-public class HbrStore implements Store {
+public class HbrItemStore extends HbrService implements ItemStore {
 
-    private final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-            .configure()
-            .build();
-    private final SessionFactory sf = new MetadataSources(registry)
-            .buildMetadata()
-            .buildSessionFactory();
 
-    private final static Logger LOG = LogCreator.getLogger();
-
-    private HbrStore() {
+    private HbrItemStore() {
     }
 
     @Override
     public List<Item> findAll() {
-        return this.tx((a) -> a.createQuery("from model.Item", Item.class).list(), "findAll");
+        return this.tx((session) -> session.createQuery("from model.Item", Item.class).list(), "findAll");
     }
 
     @Override
     public boolean add(Item item) {
         int id = item.getId();
         String message = "Add with argument '" + item + "'";
-        return this.tx(a -> {
-            a.save(item);
+        return this.tx(session -> {
+            session.save(item);
             return id != item.getId();
         }, message);
     }
@@ -47,9 +39,9 @@ public class HbrStore implements Store {
     @Override
     public boolean delete(String id) {
         String message = "Delete with argument '" + id + "'";
-        return this.tx((a)-> {
-                    Item item = a.get(Item.class, Integer.parseInt(id));
-                    a.delete(item);
+        return this.tx((session)-> {
+                    Item item = session.get(Item.class, Integer.parseInt(id));
+                    session.delete(item);
                     return true;
                 }, message);
     }
@@ -79,18 +71,18 @@ public class HbrStore implements Store {
 
     private <T> T tx(final Function<Session, T> command, String message) {
         Transaction transaction = null;
-        try(Session session = sf.openSession()) {
+        try(Session session = super.sf.openSession()) {
             transaction = session.beginTransaction();
             T rsl = command.apply(session);
-            LOG.info("\nOperation " + message + " completed successfully!\n");
+            super.LOG.info("\nOperation " + message + " completed successfully!\n");
             transaction.commit();
             return rsl;
         } catch (final Exception e) {
             if (transaction != null) {
                 transaction.rollback();
-                LOG.info("\n.......Transaction Is Being Rolled Back.......\n");
+                super.LOG.info("\n.......Transaction Is Being Rolled Back.......\n");
             }
-            LOG.error(e.getMessage());
+            super.LOG.error(e.getMessage());
             throw e;
         }
     }
@@ -98,10 +90,10 @@ public class HbrStore implements Store {
 
 
     private static final class LAZY {
-        private static final Store INST = new HbrStore();
+        private static final ItemStore INST = new HbrItemStore();
     }
 
-    public static Store instOf() {
+    public static ItemStore instOf() {
         return LAZY.INST;
     }
 }

@@ -29,6 +29,8 @@ MVC REST API - приложение, todo-список дел.
 * Junit
 * Travis CI
 
+* Основная страница 
+  ![ScreenShot](img/Index.PNG)
 
 ## Автор
 

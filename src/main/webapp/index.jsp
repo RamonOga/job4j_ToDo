@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,20 +24,23 @@
 
 <body>
 
-<div class="container">
+<div class="container pt-3">
 <form>
-    <div class="form-group">
-        <label for="description">Description</label>
-        <input type="text" class="form-control" id="description">
+    <div class="form-group ">
+        <label for="description">Добавить задачу </label>
+        <div class="col-sm-5">
+            <textarea rows="5" cols="45" name="description" id="description" placeholder="Введите описание задачи"></textarea>
+        </div>
+        <%--<input type="text" class="form-control" id="description" placeholder="Введите описание задачи">--%>
     </div>
 
     <button type="submit" class="btn btn-primary" onclick="sendData()">Submit</button>
 </form>
 </div>
 
-<div class="container">
+<div class="container pt-3">
     <div class="form-group form-check">
-        <input type="checkbox" id="checkbox" <%--onclick="return checkCheckbox();"--%>> показать все </input>
+        <input type="checkbox" id="checkbox"> Показать все задачи</input>
     </div>
 
   <table id="table" class="table table-bordered" style="width:100%">

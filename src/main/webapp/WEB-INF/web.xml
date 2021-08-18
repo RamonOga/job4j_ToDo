@@ -15,6 +15,28 @@
     <servlet-class>servlet.DoneServlet</servlet-class>
   </servlet>
 
+  <servlet>
+    <servlet-name>RegServlet</servlet-name>
+    <servlet-class>servlet.RegServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>LoginServlet</servlet-name>
+    <servlet-class>servlet.LoginServlet</servlet-class>
+  </servlet>
+
+
+  <servlet-mapping>
+    <servlet-name>LoginServlet</servlet-name>
+    <url-pattern>/login.do</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet-mapping>
+    <servlet-name>RegServlet</servlet-name>
+    <url-pattern>/reg.do</url-pattern>
+  </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>DoneServlet</servlet-name>
     <url-pattern>/done</url-pattern>

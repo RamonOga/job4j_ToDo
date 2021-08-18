@@ -9,6 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 
 public abstract class HbrService {
+
     protected final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure()
             .build();

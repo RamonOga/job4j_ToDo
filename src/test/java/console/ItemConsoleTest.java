@@ -1,24 +1,27 @@
+package console;
+
 import model.Item;
+import model.User;
 import store.HbrItemStore;
 import store.ItemStore;
 
-public class Runner {
+
+public class ItemConsoleTest {
     public static void main(String[] args) {
         ItemStore store = HbrItemStore.instOf();
-        /*add(store);*/
-        done(store);
-       /* findAll(store);
+      /*  add(store);
+       done(store);
         findAll(store);
-        findById(store);
         delete(store);*/
+        findById(store);
     }
 
     public static void add(ItemStore store) {
-        store.add(new Item(0, "desc33"));
+        store.add(new Item(0, "learn all Java", new User()));
     }
 
     public static void done(ItemStore store) {
-        store.done("18");
+        store.done("22");
     }
 
     public static void findAll(ItemStore store) {
@@ -26,10 +29,10 @@ public class Runner {
     }
 
     public static void findById(ItemStore store) {
-        System.out.println("find by id " + store.findById("1"));
+        System.out.println("find by id " + store.findById("555"));
     }
 
     public static void delete(ItemStore store) {
-        store.delete("1");
+        store.delete("22");
     }
 }

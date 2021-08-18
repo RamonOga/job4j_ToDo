@@ -18,12 +18,7 @@ import org.apache.logging.log4j.Logger;
 public class HbrItemStore extends HbrService implements ItemStore {
 
 
-    private HbrItemStore() {
-    }
-
-    @Override
-    public List<Item> findAll() {
-        return this.tx((session) -> session.createQuery("from model.Item", Item.class).list(), "findAll");
+    protected HbrItemStore() {
     }
 
     @Override
@@ -39,39 +34,41 @@ public class HbrItemStore extends HbrService implements ItemStore {
     @Override
     public boolean delete(String id) {
         String message = "Delete with argument '" + id + "'";
-        return this.tx((session)-> {
-                    Item item = session.get(Item.class, Integer.parseInt(id));
-                    session.delete(item);
-                    return true;
-                }, message);
+        return this.tx((session) -> {
+            Item item = session.get(Item.class, Integer.parseInt(id));
+            session.delete(item);
+            return true;
+        }, message);
     }
 
     @Override
     public Item findById(String id) {
         String message = "findById this argument by '" + id + "'";
-            return this.tx((session) -> session.get(Item.class, Integer.parseInt(id)), message);
-
+        return this.tx((session) -> session.get(Item.class, Integer.parseInt(id)), message);
     }
-
-
 
     @Override
     public void done(String id) {
         String message = "Update with argument by '" + id + "'";
         this.tx(session -> {
             Item item = session.get(Item.class, Integer.parseInt(id));
-        if (item == null) {
-            throw new NoSuchElementException("Item with ID " + id + "not found!");
-        }
-        item.setDoneTrue();
-        session.update(item);
-        return item;
+            if (item == null) {
+                throw new NoSuchElementException("Item with ID " + id + "not found!");
+            }
+            item.setDoneTrue();
+            session.update(item);
+            return item;
         }, message);
+    }
+
+    @Override
+    public List<Item> findAll() {
+        return this.tx((session) -> session.createQuery("from model.Item", Item.class).list(), "findAll");
     }
 
     private <T> T tx(final Function<Session, T> command, String message) {
         Transaction transaction = null;
-        try(Session session = super.sf.openSession()) {
+        try (Session session = super.sf.openSession()) {
             transaction = session.beginTransaction();
             T rsl = command.apply(session);
             super.LOG.info("\nOperation " + message + " completed successfully!\n");
@@ -86,8 +83,6 @@ public class HbrItemStore extends HbrService implements ItemStore {
             throw e;
         }
     }
-
-
 
     private static final class LAZY {
         private static final ItemStore INST = new HbrItemStore();

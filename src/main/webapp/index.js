@@ -1,4 +1,4 @@
-function getAllItems (bool) {
+function getAllItems (user_id, bool) {
    // console.log("start getAllItems");
 
     $.ajax({
@@ -18,8 +18,9 @@ function getAllItems (bool) {
                 let created = data[i]['created'];
                 let desc = item['description'];
                 let done = item['done'];
+                let user_id = item['user_id']
                 let button;
-                if (bool && done) { // если стоит checkbar _не отсеиваем_ выполненые заяки
+                if ((bool && done) || id != user_id) { // если стоит checkbar _не отсеиваем_ выполненые заяки
                     continue;
                 }
 
@@ -43,7 +44,7 @@ function getAllItems (bool) {
     });
 }
 
-function doneItem(id) {
+function doneItem(user_id) {
     console.log("start DoneItem");
     $.ajax ({
         url: "http://localhost:8080/job4j_todo/done",
@@ -53,26 +54,26 @@ function doneItem(id) {
     });
 }
 
-function sendData() { // отправка данных заявки
+function sendData(user_id) { // отправка данных заявки
     console.log("start sendData");
     let description = $('#description').val();
     $.ajax ({
         url: "http://localhost:8080/job4j_todo/index",
         dataType: "json",
         method: "POST",
-        data: {description : description},
+        data: {description : description, user_id : user_id},
     });
 }
 
-function checkCheckbox() { // проверка стоит ли checkbar
+function checkCheckbox(user) { // проверка стоит ли checkbar
     //console.log("start checkCheckbox");
     const checkbox = document.querySelector('#checkbox');
     if (checkbox.checked) {
        // console.log("to getAllItem with " + false) ;
-        getAllItems(false);
+        getAllItems(user, false);
     } else {
        // console.log("to getAllItem with " + true) ;
-        getAllItems(true);
+        getAllItems(user, true);
     }
 }
 

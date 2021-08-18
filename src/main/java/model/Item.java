@@ -26,9 +26,10 @@ public class Item {
     public Item() {
     }
 
-    public Item(int id, String description) {
+    public Item(int id, String description, User user) {
         this.id = id;
         this.description = description;
+        this.user = user;
         created = new Timestamp(System.currentTimeMillis());
     }
 

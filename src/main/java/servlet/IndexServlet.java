@@ -3,7 +3,10 @@ package servlet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import model.Item;
+import model.User;
 import store.HbrItemStore;
+import store.HbrService;
+import store.HbrUserStore;
 import store.ItemStore;
 
 import javax.servlet.ServletException;
@@ -32,6 +35,8 @@ public class IndexServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ItemStore store = HbrItemStore.instOf();
         String description = req.getParameter("description");
-        store.add(new Item(0, description));
+        String user_id = req.getParameter("description");
+        User user = HbrUserStore.instOf().findById(user_id);
+        store.add(new Item(0, description, user));
     }
 }

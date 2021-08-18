@@ -1,6 +1,7 @@
 package servlet;
 
 import store.HbrItemStore;
+import store.HbrService;
 import store.ItemStore;
 
 import javax.servlet.ServletException;

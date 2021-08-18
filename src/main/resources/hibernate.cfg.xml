@@ -20,5 +20,6 @@
 
         <mapping class="model.Item"/>
         <mapping class="model.User"/>
+
     </session-factory>
 </hibernate-configuration>

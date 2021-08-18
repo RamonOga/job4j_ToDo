@@ -61,7 +61,7 @@
                 <%--<input type="text" class="form-control" id="description" placeholder="Введите описание задачи">--%>
             </div>
 
-            <button type="submit" class="btn btn-primary" onclick="sendData()">Submit</button>
+            <button type="submit" class="btn btn-primary" onclick="sendData(<%=user.getId()%>)">Submit</button>
         </form>
     </div>
         <% } %>

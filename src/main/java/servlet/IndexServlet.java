@@ -35,7 +35,7 @@ public class IndexServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ItemStore store = HbrItemStore.instOf();
         String description = req.getParameter("description");
-        String user_id = req.getParameter("description");
+        String user_id = req.getParameter("user_id");
         User user = HbrUserStore.instOf().findById(user_id);
         store.add(new Item(0, description, user));
     }

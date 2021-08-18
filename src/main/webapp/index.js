@@ -1,6 +1,5 @@
-function getAllItems (user_id, bool) {
+function getAllItems (user_id, checkbox) {
    // console.log("start getAllItems");
-
     $.ajax({
         url : "http://localhost:8080/job4j_todo/index",
         async: true,
@@ -10,7 +9,7 @@ function getAllItems (user_id, bool) {
             $("table td").remove(); // чистим таблицу
             const table = document.querySelector('.table');
             const thead = table.querySelector('thead')
-
+            console.log(data.length)
             for (let i = 0; i < data.length; i++) {
                 let img;
                 let item = data[i];
@@ -20,11 +19,10 @@ function getAllItems (user_id, bool) {
                 let done = item['done'];
                 let user_id = item['user_id']
                 let button;
-                if ((bool && done) || id != user_id) { // если стоит checkbar _не отсеиваем_ выполненые заяки
+               /*if ( bool && done ) { // если стоит checkbar _не отсеиваем_ выполненые заяки
                     continue;
-                }
-
-                if (done) { // грузим соответсвтующую картинку
+                }*/
+                if (!checkbox) { // грузим соответсвтующую картинку
                     button = ''
                     img = '<img src="img/true.png" width="15" height="15">';
                 } else {
@@ -38,7 +36,6 @@ function getAllItems (user_id, bool) {
                     '<td>' + img +  '</td>' +
                     '<td>' + button +  '</td>';
                 thead.appendChild(tr);
-
             }
         }
     });
@@ -66,14 +63,8 @@ function sendData(user_id) { // отправка данных заявки
 }
 
 function checkCheckbox(user) { // проверка стоит ли checkbar
-    //console.log("start checkCheckbox");
+   // console.log("start checkCheckbox");
     const checkbox = document.querySelector('#checkbox');
-    if (checkbox.checked) {
-       // console.log("to getAllItem with " + false) ;
-        getAllItems(user, false);
-    } else {
-       // console.log("to getAllItem with " + true) ;
-        getAllItems(user, true);
-    }
+    getAllItems(user, checkbox);
 }
 

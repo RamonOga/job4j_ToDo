@@ -67,7 +67,6 @@
                             Не верный логин и/или пароль.
                         </div>
                     </c:if>
-                    <a class="nav-link" href="<%=request.getContextPath()%>/reg.jsp">Зарегистрироваться</a>
                 </form>
             </div>
         </div>

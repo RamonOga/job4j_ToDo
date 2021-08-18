@@ -24,7 +24,6 @@ public class RegServlet extends HttpServlet {
             HttpSession sc = req.getSession();
             user = new User(login, password);
             store.add(user);
-            sc.setAttribute("user", user);
             resp.sendRedirect(req.getContextPath() + "/login.jsp");
         } else {
             req.setAttribute("error", "Введенный пользовтель уже зарегистрирован");

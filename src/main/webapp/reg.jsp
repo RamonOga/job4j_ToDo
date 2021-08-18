@@ -43,7 +43,7 @@
                         <input type="text" class="form-control" name="password" id="password" required>
                     </div>
 
-                    <button type="submit" class="btn btn-primary" onclick="validate()">Зарегистритроваться</button>
+                    <button type="submit" class="btn btn-primary" onclick="validate()">Зарегистритроваться</button
 
                     <c:if test="${not empty error}">
                         <div style="color:red; font-weight: bold; margin: 30px 0;">

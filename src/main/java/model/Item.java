@@ -61,6 +61,10 @@ public class Item {
         return done;
     }
 
+    public User getUser() {
+        return user;
+    }
+
     public void setDoneTrue() {
         this.done = true;
     }

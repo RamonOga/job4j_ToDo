@@ -46,7 +46,7 @@ MVC REST API - приложение, todo-список дел.
   ![ScreenShot](img/AddTasks.PNG)
 
 * По умолчанию мы видем только незвершеные задачи
-  ![ScreenShot](img/NotDoneTasks.PNG)
+  ![ScreenShot](img/tasks.PNG)
 
 * Нажимаем галку и видем все задачи
   ![ScreenShot](img/AllTasks.PNG)

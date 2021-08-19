@@ -42,6 +42,7 @@ MVC REST API - приложение, todo-список дел.
 1. Модели данных(Model)
    1.1 [Item](src/main/java/model/Item.java) -
     Модель для хранения данных задачи.
+   
    1.2 [User](src/main/java/model/User.java) -
     Модель для хранения данных пользователя. 
 

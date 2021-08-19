@@ -5,6 +5,9 @@ function getAllItems (user_id, checkbox) {
         async: true,
         method : "GET",
         dataType : "json",
+        data: {
+            user_id : user_id
+        },
         success : function (data) {
             $("table td").remove(); // чистим таблицу
             const table = document.querySelector('.table');
@@ -17,12 +20,12 @@ function getAllItems (user_id, checkbox) {
                 let created = data[i]['created'];
                 let desc = item['description'];
                 let done = item['done'];
-                let user_id = item['user_id']
                 let button;
-               /*if ( bool && done ) { // если стоит checkbar _не отсеиваем_ выполненые заяки
+               if ( !checkbox && done ) { // если стоит checkbar _не отсеиваем_ выполненые заяки
                     continue;
-                }*/
-                if (!checkbox) { // грузим соответсвтующую картинку
+                }
+
+                if (done) { // грузим соответсвтующую картинку
                     button = ''
                     img = '<img src="img/true.png" width="15" height="15">';
                 } else {
@@ -47,7 +50,7 @@ function doneItem(user_id) {
         url: "http://localhost:8080/job4j_todo/done",
         dataType: "json",
         method: "POST",
-        data: {id : id},
+        data: {id : user_id},
     });
 }
 
@@ -63,8 +66,8 @@ function sendData(user_id) { // отправка данных заявки
 }
 
 function checkCheckbox(user) { // проверка стоит ли checkbar
-   // console.log("start checkCheckbox");
-    const checkbox = document.querySelector('#checkbox');
+    const checkbox = document.querySelector('#checkbox').checked;
+    console.log(checkbox);
     getAllItems(user, checkbox);
 }
 

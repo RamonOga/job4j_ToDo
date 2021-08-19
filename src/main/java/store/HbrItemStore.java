@@ -1,25 +1,34 @@
 package store;
 
-import logger.LogCreator;
 import model.Item;
+import model.User;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+
 import org.hibernate.Transaction;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.query.Query;
+
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.function.Function;
 
-import org.apache.logging.log4j.Logger;
 
 public class HbrItemStore extends HbrService implements ItemStore {
 
 
     protected HbrItemStore() {
     }
+
+
+    @Override
+    public List<Item> findByUserId(String user_id) {
+        return tx(
+                session ->session
+                        .createQuery("from model.Item where user_id = :parampam", Item.class)
+                        .setParameter("parampam", Integer.parseInt(user_id))
+                        .list(), "Find By User Id with argument '" + user_id + "'"    );
+                }
+
 
     @Override
     public boolean add(Item item) {

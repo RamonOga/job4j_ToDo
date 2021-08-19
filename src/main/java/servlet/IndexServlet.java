@@ -27,7 +27,10 @@ public class IndexServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ItemStore store = HbrItemStore.instOf();
-        String json = "[" + GSON.toJson(getJSON(store.findAll())) + "]";
+        List<Item> userItemList = store
+                .findByUserId(req.getParameter("user_id"));
+        eraseUserPasswords(userItemList);
+        String json = GSON.toJson(userItemList);
         OutputStream out = resp.getOutputStream();
         out.write(json.getBytes(StandardCharsets.UTF_8));
         out.flush();
@@ -43,16 +46,12 @@ public class IndexServlet extends HttpServlet {
         store.add(new Item(0, description, user));
     }
 
-    private Map<String, String> getJSON(List<Item> items) {
-        Map<String, String> rsl = new HashMap<>();
+    private void eraseUserPasswords(List<Item> items) {
         for (Item item : items) {
-            rsl.put("id", String.valueOf(item.getId()));
-            rsl.put("description", item.getDescription());
-            rsl.put("created", String.valueOf(item.getCreated()));
-            rsl.put("done", String.valueOf(item.isDone()));
-            rsl.put("user_id", String.valueOf(item.getUser().getId()));
+            item.getUser().setPassword("empty");
+            item.getUser().setLogin("empty");
         }
-        return rsl;
+        return;
     }
 
 }

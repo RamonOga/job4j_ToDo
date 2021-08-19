@@ -12,8 +12,15 @@ public class ItemConsoleTest {
       /*  add(store);
        done(store);
         findAll(store);
-        delete(store);*/
-        findById(store);
+        delete(store);
+        findById(store);*/
+        findItemByUserId(store);
+
+
+    }
+
+    public static void findItemByUserId(ItemStore store) {
+        System.out.println("find by id " + store.findByUserId("10"));
     }
 
     public static void add(ItemStore store) {

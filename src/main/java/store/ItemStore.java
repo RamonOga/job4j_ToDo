@@ -15,4 +15,6 @@ public interface ItemStore {
 
     List<Item> findAll();
 
+    List<Item> findByUserId(String user_id);
+
 }

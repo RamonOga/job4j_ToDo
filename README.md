@@ -40,10 +40,10 @@ MVC REST API - приложение, todo-список дел.
   ![ScreenShot](img/login.PNG)
 
 * вводим верный пароль
-  ![ScreenShot](img/wrong pass.PNG)
+  ![ScreenShot](img/wrongPass.PNG)
 
 * Добавляем задачи
-  ![ScreenShot](img/Add tasks.PNG)
+  ![ScreenShot](img/AddTasks.PNG)
 
 * По умолчанию мы видем только незвершеные задачи
   ![ScreenShot](img/NotDoneTasks.PNG)
@@ -51,10 +51,6 @@ MVC REST API - приложение, todo-список дел.
 * Нажимаем галку и видем все задачи
   ![ScreenShot](img/AllTasks.PNG)
   
-
-
-
-
 ## Автор
 
 Маркелов Роман Игоревич

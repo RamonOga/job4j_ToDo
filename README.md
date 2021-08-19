@@ -53,17 +53,20 @@ MVC REST API - приложение, todo-список дел.
    Инерфейс для Hibernate - хранилища пользователей. 
     
    2.1.2 [HbrUserStore](src/main/java/store/HbrUserStore.java) -
-   Hibernate-хранилище для авторизационных пользователей.
+   Hibernate-хранилище для авторизационных пользователей. 
+   HbrService является родиелем этого класса
    
    2.2.1 [ItemStore](src/main/java/store/ItemStore.java) -
    Инерфейс для Hibernate - хранилища задач из TODO-списка.    
 
    2.2.2 [HbrItemStore](src/main/java/store/HbrItemStore.java) -
    Hibernate-хранилище для задач из TODO-списка.
+   HbrService является родиелем этого класса
    
    2.3.1 [HbrService](src/main/java/store/HbrService.java)
-   Абстрактный класс для общих переменных 
-
+   Абстрактный класс для общих переменных. HbrItemStore и HbrUserStore
+   являются потомками этого класса 
+   
 3. JSP - View
 
    3.1 [index.jsp](src/main/webapp/index.jsp) - главная страница приложения.

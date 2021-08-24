@@ -8,7 +8,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 
-public abstract class HbrService {
+public abstract class HbrService implements AutoCloseable {
 
     protected final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
             .configure()
@@ -19,4 +19,8 @@ public abstract class HbrService {
 
     protected final Logger LOG = LogManager.getLogger();
 
+    @Override
+    public void close() throws Exception {
+        StandardServiceRegistryBuilder.destroy(registry);
+    }
 }

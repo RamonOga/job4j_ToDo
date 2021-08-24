@@ -19,13 +19,16 @@ public class HbrUserStore extends HbrService implements UserStore {
     @Override
     public User findByName(String name) {
         return tx(
-                session -> session.createQuery("from model.User", User.class)
-                        .list()
-                        .stream()
-                        .filter(user -> user.getLogin().equals(name))
-                        .findFirst()
-                        .orElse(new User(-1))
-        );
+                session -> {
+                    List userList =  session
+                            .createQuery("from model.User where login = :name", User.class)
+                            .setParameter("name", name).list();
+                    if (userList.size() <= 0) {
+                        return new User(0);
+                    } else {
+                      return (User) userList.get(0);
+                    }
+                });
     }
 
     @Override

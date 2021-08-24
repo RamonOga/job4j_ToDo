@@ -20,17 +20,23 @@ public class LoginServlet extends HttpServlet {
         User user = store.findByName(login);
 
         if ( user == null || user.getId() <= 0 ) {
+            System.out.println("login");
             req.setAttribute("error", "Введенный логин не зарегистрирован в системе.");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else if (!user.getPassword().equals(password)) {
+            System.out.println("Pass");
             req.setAttribute("error", "Не верный пароль");
             req.getRequestDispatcher("login.jsp").forward(req, resp);
         } else {
+            System.out.println("success");
             HttpSession hs = req.getSession();
             hs.setAttribute("user", user);
             resp.sendRedirect(req.getContextPath() + "/");
-
         }
+    }
 
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("login.jsp").forward(req, resp);
     }
 }

@@ -12,7 +12,6 @@ function getAllItems (user_id, checkbox) {
             $("table td").remove(); // чистим таблицу
             const table = document.querySelector('.table');
             const thead = table.querySelector('thead')
-            console.log(data.length)
             for (let i = 0; i < data.length; i++) {
                 let img;
                 let item = data[i];
@@ -67,7 +66,6 @@ function sendData(user_id) { // отправка данных заявки
 
 function checkCheckbox(user) { // проверка стоит ли checkbar
     const checkbox = document.querySelector('#checkbox').checked;
-    console.log(checkbox);
     getAllItems(user, checkbox);
 }
 

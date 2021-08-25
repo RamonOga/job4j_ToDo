@@ -21,9 +21,7 @@
     <title>Human</title>
 </head>
 <body>
-<%
-    List<City> cityList = (List<City>) request.getAttribute("allCities");
-%>
+
 
 <div class="container pt-1">
     <div class="row">

@@ -2,12 +2,10 @@ package servlet;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import model.Category;
 import model.Item;
 import model.User;
-import store.HbrItemStore;
-import store.HbrService;
-import store.HbrUserStore;
-import store.ItemStore;
+import store.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +25,7 @@ public class IndexServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ItemStore store = HbrItemStore.instOf();
-        List<Item> userItemList = store
+        List<Item> userItemList = HbrItemStore.instOf()
                 .findByUserId(req.getParameter("user_id"));
         eraseUserPasswords(userItemList);
         String json = GSON.toJson(userItemList);
@@ -42,8 +40,11 @@ public class IndexServlet extends HttpServlet {
         ItemStore store = HbrItemStore.instOf();
         String description = req.getParameter("description");
         String user_id = req.getParameter("user_id");
+        String catsIds = req.getParameter("itemCats");
         User user = HbrUserStore.instOf().findById(user_id);
-        store.add(new Item(0, description, user));
+        Item item = new Item(0, description, user);
+        item.addCategories(getCategories(catsIds));
+        store.add(item);
     }
 
     private void eraseUserPasswords(List<Item> items) {
@@ -52,6 +53,15 @@ public class IndexServlet extends HttpServlet {
             item.getUser().setLogin("empty");
         }
         return;
+    }
+
+    private List<Category> getCategories(String cats) {
+        String[] tmp = cats.replaceAll("\\[|\\]", "").split(",");
+        List<Category> rsl = new ArrayList<>();
+        for (String cat : tmp) {
+            rsl.add(HbrCategoryStore.instOf().findById(cat));
+        }
+        return rsl;
     }
 
 }

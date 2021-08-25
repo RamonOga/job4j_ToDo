@@ -24,9 +24,14 @@ public class HbrItemStore extends HbrService implements ItemStore {
     public List<Item> findByUserId(String user_id) {
         return tx(
                 session ->session
-                        .createQuery("from model.Item where user_id = :parampam", Item.class)
-                        .setParameter("parampam", Integer.parseInt(user_id))
+                        .createQuery(
+                                "select distinct i from Item i join fetch i.categories where user_id = :param ", Item.class
+                        )
+                        .setParameter("param", Integer.parseInt(user_id))
                         .list(), "Find By User Id with argument '" + user_id + "'"    );
+
+        //select distinct i from Item i join fetch i.categories
+        //from model.Item where user_id = :parampam
                 }
 
 

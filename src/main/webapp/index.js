@@ -20,6 +20,8 @@ function getAllItems (user_id, checkbox) {
                 let desc = item['description'];
                 let done = item['done'];
                 let button;
+                let categories = getCategories(item['categories']);
+
                if ( !checkbox && done ) { // если стоит checkbar _не отсеиваем_ выполненые заяки
                     continue;
                 }
@@ -34,6 +36,7 @@ function getAllItems (user_id, checkbox) {
                 let tr = document.createElement('tr'); // заполняем таблицу
                 tr.innerHTML = '<td>' + id + '</td>' +
                     '<td>' + desc +  '</td>'+
+                    '<td>' + categories +  '</td>'+
                     '<td>' + created +  '</td>' +
                     '<td>' + img +  '</td>' +
                     '<td>' + button +  '</td>';
@@ -56,16 +59,25 @@ function doneItem(user_id) {
 function sendData(user_id) { // отправка данных заявки
     console.log("start sendData");
     let description = $('#description').val();
+    let itemCats = "[" + $('#itemCats').val() + "]";
     $.ajax ({
         url: "http://localhost:8080/job4j_todo/index",
         dataType: "json",
         method: "POST",
-        data: {description : description, user_id : user_id},
+        data: {description : description, user_id : user_id, itemCats: itemCats},
     });
 }
 
 function checkCheckbox(user) { // проверка стоит ли checkbar
     const checkbox = document.querySelector('#checkbox').checked;
     getAllItems(user, checkbox);
+}
+
+function getCategories(cats) {
+    let rsl = '';
+    for (let i = 0; i < cats.length; i++) {
+        rsl += cats[i]['name'] + '<br>';
+    }
+    return rsl;
 }
 

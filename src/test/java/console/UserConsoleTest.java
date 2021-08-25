@@ -9,9 +9,9 @@ public class UserConsoleTest {
     public static void main(String[] args) {
         UserStore store = HbrUserStore.instOf();
         /*add(store, "login1", "password1");
-        add(store, "login2", "password2");
-        findAll(store);*/
-        System.out.println(findByName(store, "login33"));
+        add(store, "login2", "password2");*/
+        findAll(store);
+       // System.out.println(findByName(store, "login33"));
 
 
     }

@@ -1,4 +1,7 @@
 <%@ page import="model.User" %>
+<%@ page import="model.Category" %>
+<%@ page import="java.util.List" %>
+<%@ page import="store.HbrCategoryStore" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
@@ -30,6 +33,8 @@
 <%
     HttpSession hs = request.getSession();
     User user = (User) hs.getAttribute("user");
+    List<Category> categories = HbrCategoryStore
+            .instOf().findAll();
 %>
 
 <div class="container pt-3">
@@ -58,7 +63,21 @@
                 <div class="col-sm-5">
                     <textarea rows="5" cols="45" name="description" id="description" placeholder="Введите описание задачи"></textarea>
                 </div>
-                <%--<input type="text" class="form-control" id="description" placeholder="Введите описание задачи">--%>
+            </div>
+            <div class="form-group">
+                <label class="col-form-label col-sm-3" for="itemCats" style="font-weight: 900">Выберете категорию</label>
+                <div class="col-sm-5">
+                    <select class="form-control" name="itemCats" id="itemCats" multiple>
+                        <% for (Category cat : categories) { %>
+                            <option value='<%=cat.getId()%>'><%=cat.getName()%></option>
+
+                        <% } %>
+
+                   <%--    <c:forEach items="${allCategories}" var="category">
+                           <option value='<c:out value="${category.id}"/>'><c:out value="${category.name}"/></option>
+                       </c:forEach>--%>
+                    </select>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary" onclick="sendData(<%=user.getId()%>)">Submit</button>
@@ -77,6 +96,7 @@
       <tr>
           <th>ID</th>
           <th>Description</th>
+          <th>Category</th>
           <th>Created</th>
           <th>Status</th>
           <th>Action</th>
@@ -88,13 +108,14 @@
 </div>
 
 <script>
-
     <% if (user != null) { %>
     setInterval(() => {
         checkCheckbox(<%=user.getId()%>);
     }, 1000)
     <% } %>
 </script>
+
+
 
 </body>
 </html>

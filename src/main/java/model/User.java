@@ -14,13 +14,9 @@ public class User {
     @Column(name = "password")
     String password;
 
-    public User() {
+    public User() {}
 
-    }
-
-    public User(int id) {
-
-    }
+    public User(int id) {}
 
     public User(String login, String password) {
         this.login = login;

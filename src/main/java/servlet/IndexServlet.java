@@ -40,7 +40,7 @@ public class IndexServlet extends HttpServlet {
         ItemStore store = HbrItemStore.instOf();
         String description = req.getParameter("description");
         String user_id = req.getParameter("user_id");
-        String[] catsIds = req.getParameterValues("itemCats");
+        String catsIds = req.getParameter("itemCats");
         User user = HbrUserStore.instOf().findById(user_id);
         Item item = new Item(0, description, user);
         item.addCategories(getCategories(catsIds));
@@ -55,10 +55,11 @@ public class IndexServlet extends HttpServlet {
         return;
     }
 
-    private List<Category> getCategories(String[] cats) {
+    private List<Category> getCategories(String cats) {
+        String[] tmp = cats.replaceAll("\\[|\\]", "").split(",");
         List<Category> rsl = new ArrayList<>();
-        for (String cat : cats) {
-            HbrCategoryStore.instOf().findById(cat);
+        for (String cat : tmp) {
+            rsl.add(HbrCategoryStore.instOf().findById(cat));
         }
         return rsl;
     }

@@ -9,6 +9,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HumanRun {
     public static void main(String[] args) {
+
         StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
         SessionFactory sf = new MetadataSources(registry).buildMetadata().buildSessionFactory();
         Transaction transaction = null;

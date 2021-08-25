@@ -20,6 +20,9 @@ function getAllItems (user_id, checkbox) {
                 let desc = item['description'];
                 let done = item['done'];
                 let button;
+                let categories = item['categories'];
+                console.log(categories);
+
                if ( !checkbox && done ) { // если стоит checkbar _не отсеиваем_ выполненые заяки
                     continue;
                 }
@@ -56,11 +59,12 @@ function doneItem(user_id) {
 function sendData(user_id) { // отправка данных заявки
     console.log("start sendData");
     let description = $('#description').val();
+    let itemCats = "[" + $('#itemCats').val() + "]";
     $.ajax ({
         url: "http://localhost:8080/job4j_todo/index",
         dataType: "json",
         method: "POST",
-        data: {description : description, user_id : user_id},
+        data: {description : description, user_id : user_id, itemCats: itemCats},
     });
 }
 

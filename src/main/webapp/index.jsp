@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="store.HbrCategoryStore" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 
 <!doctype html>
 <html lang="en">
@@ -68,12 +69,13 @@
                 <div class="col-sm-5">
                     <select class="form-control" name="itemCats" id="itemCats" multiple>
                         <% for (Category cat : categories) { %>
-                            <option value='"<%=cat.getId()%>"'><%=cat.getName()%></option>
+                            <option value='<%=cat.getId()%>'><%=cat.getName()%></option>
+
                         <% } %>
 
-                        <c:forEach items="${allCities}" var="city">
-                            <option value='<c:out value="${city.id}"/>'><c:out value="${city.name}" /></option>
-                        </c:forEach>
+                   <%--    <c:forEach items="${allCategories}" var="category">
+                           <option value='<c:out value="${category.id}"/>'><c:out value="${category.name}"/></option>
+                       </c:forEach>--%>
                     </select>
                 </div>
             </div>

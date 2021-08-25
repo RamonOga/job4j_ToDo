@@ -46,6 +46,16 @@
     <servlet-class>servlet.LoginServlet</servlet-class>
   </servlet>
 
+  <servlet>
+    <servlet-name>HumanServlet</servlet-name>
+    <servlet-class>servlet.HumanServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>HumanServlet</servlet-name>
+    <url-pattern>/humans</url-pattern>
+  </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/login.do</url-pattern>

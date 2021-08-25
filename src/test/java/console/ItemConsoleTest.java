@@ -1,30 +1,34 @@
 package console;
 
+import model.Category;
 import model.Item;
 import model.User;
-import store.HbrItemStore;
-import store.ItemStore;
+import store.*;
 
 
 public class ItemConsoleTest {
     public static void main(String[] args) {
-        ItemStore store = HbrItemStore.instOf();
-      /*  add(store);
-       done(store);
-        findAll(store);
-        delete(store);
-        findById(store);*/
-        findItemByUserId(store);
+        ItemStore itemStore = HbrItemStore.instOf();
+      //  add(itemStore);
+     //  done(itemStore);
+      //  findAll(itemStore);
+       // delete(itemStore);
+      //  findById(itemStore);
+        findItemByUserId(itemStore);
 
 
     }
 
     public static void findItemByUserId(ItemStore store) {
-        System.out.println("find by id " + store.findByUserId("10"));
+        System.out.println("find by id " + store.findByUserId("4"));
     }
 
     public static void add(ItemStore store) {
-        store.add(new Item(0, "learn all Java", new User()));
+        User user = HbrUserStore.instOf().findById("4");
+        Item item = new Item(0, "learn all Java!!111oneOneOne", user);
+        Category category = HbrCategoryStore.instOf().findById("1");
+        item.addCategory(category);
+        store.add(item);
     }
 
     public static void done(ItemStore store) {

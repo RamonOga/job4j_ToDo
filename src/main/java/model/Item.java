@@ -2,6 +2,9 @@ package model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name="item")
 public class Item {
@@ -23,6 +26,9 @@ public class Item {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Category> categories = new ArrayList<>();;
+
     public Item() {
     }
 
@@ -31,6 +37,18 @@ public class Item {
         this.description = description;
         this.user = user;
         created = new Timestamp(System.currentTimeMillis());
+    }
+
+    public void addCategory(Category category) {
+        categories.add(category);
+    }
+
+    public void addCategories(List<Category> categories) {
+        this.categories.addAll(categories);
+    }
+
+    public List<Category> getCategories() {
+        return categories;
     }
 
     public int getId() {

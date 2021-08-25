@@ -19,7 +19,7 @@ public class Human {
     @Column(name = "created")
     private Calendar created;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, )
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<City> cities = new ArrayList<>();
 
     public void addCity(City city) {

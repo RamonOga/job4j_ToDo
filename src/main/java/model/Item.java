@@ -18,6 +18,7 @@ public class Item {
     private String description;
 
     @Column(name="created")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date created;
 
     @Column(name="done")

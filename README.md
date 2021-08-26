@@ -48,6 +48,9 @@ MVC REST API - приложение, todo-список дел.
    1.2 [User](src/main/java/model/User.java) -
     Модель для хранения данных пользователя. 
 
+   1.3 [Category](src/main/java/model/Category.java) -
+    Модель для хранения данных пользователя.
+
 2. Хранилища(Store)
    
    2.1.1 [UserStore](src/main/java/store/UserStore.java) -
@@ -63,8 +66,15 @@ MVC REST API - приложение, todo-список дел.
    2.2.2 [HbrItemStore](src/main/java/store/HbrItemStore.java) -
    Hibernate-хранилище для задач из TODO-списка.
    HbrService является родителем этого класса
+
+   2.3.1 [CategoryStore](src/main/java/store/CategoryStore.java) -
+   Инерфейс для Hibernate - хранилища категорий задач.
+
+   2.3.2 [HbrCategoryStore](src/main/java/store/HbrCategoryStore.java) -
+   Hibernate-хранилище для категорий задач.
+   HbrService является родителем этого класса
    
-   2.3.1 [HbrService](src/main/java/store/HbrService.java)
+   2.4.1 [HbrService](src/main/java/store/HbrService.java)
    Абстрактный класс для общих переменных. HbrItemStore и HbrUserStore
    являются потомками этого класса 
    
@@ -74,7 +84,7 @@ MVC REST API - приложение, todo-список дел.
    На ней отображаются все задачи и интерфейс взаимодействия с ними, форма для
    добавления новых задач.
    
-   3.2 [auth.jsp](src/main/webapp/login.jsp) - страница авторизации. Поддерживает валидацию данных.
+   3.2 [login.jsp](src/main/webapp/login.jsp) - страница авторизации. Поддерживает валидацию данных.
    Если пользователя с данным логином не существует быдет вывидено сообщение об ошибке.
    
    3.3 [reg.jsp](src/main/webapp/reg.jsp) - страница регистрации. Поддерживает валидацию даннных.
@@ -82,7 +92,7 @@ MVC REST API - приложение, todo-список дел.
 
 4. Сервлеты - Controller
 
-   4.1 [AuthServlet](src/main/java/servlet/LoginServlet.java) -
+   4.1 [LoginServlet](src/main/java/servlet/LoginServlet.java) -
    Сервлет авторизации. Принимает запрос с JSP, производит валидацию введённых
    пользователем данных, существует ли в PostgreSQL хранилище такой пользователь. В случае успешной авторизации, добавляет
    пользователя в Http-сессию.

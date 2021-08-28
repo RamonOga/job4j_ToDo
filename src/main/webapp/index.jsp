@@ -96,6 +96,7 @@
       <tr>
           <th>ID</th>
           <th>Description</th>
+          <th>Category</th>
           <th>Created</th>
           <th>Status</th>
           <th>Action</th>
@@ -107,13 +108,14 @@
 </div>
 
 <script>
-
     <% if (user != null) { %>
     setInterval(() => {
         checkCheckbox(<%=user.getId()%>);
     }, 1000)
     <% } %>
 </script>
+
+
 
 </body>
 </html>

@@ -3,6 +3,7 @@ package model;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,8 @@ public class Item {
     private String description;
 
     @Column(name="created")
-    private Timestamp created;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date created;
 
     @Column(name="done")
     private boolean done;
@@ -36,7 +38,7 @@ public class Item {
         this.id = id;
         this.description = description;
         this.user = user;
-        created = new Timestamp(System.currentTimeMillis());
+        created = new Date(System.currentTimeMillis());
     }
 
     public void addCategory(Category category) {
@@ -67,7 +69,7 @@ public class Item {
         this.description = description;
     }
 
-    public Timestamp getCreated() {
+    public Date getCreated() {
         return created;
     }
 

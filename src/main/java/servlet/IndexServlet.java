@@ -13,11 +13,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class IndexServlet extends HttpServlet {
 
@@ -56,8 +54,8 @@ public class IndexServlet extends HttpServlet {
     }
 
     private List<Category> getCategories(String cats) {
-        String[] tmp = cats.replaceAll("\\[|\\]", "").split(",");
         List<Category> rsl = new ArrayList<>();
+        String[] tmp = cats.split(",");
         for (String cat : tmp) {
             rsl.add(HbrCategoryStore.instOf().findById(cat));
         }

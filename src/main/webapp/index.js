@@ -57,9 +57,9 @@ function doneItem(user_id) {
 }
 
 function sendData(user_id) { // отправка данных заявки
-    console.log("start sendData");
+   // console.log("start sendData");
     let description = $('#description').val();
-    let itemCats = "[" + $('#itemCats').val() + "]";
+    let itemCats = $('#itemCats').val().toString() ;
     $.ajax ({
         url: "http://localhost:8080/job4j_todo/index",
         dataType: "json",
@@ -68,7 +68,7 @@ function sendData(user_id) { // отправка данных заявки
     });
 }
 
-function checkCheckbox(user) { // проверка стоит ли checkbar
+function checkCheckbox(user) { // проверка стоит ли checkbox
     const checkbox = document.querySelector('#checkbox').checked;
     getAllItems(user, checkbox);
 }

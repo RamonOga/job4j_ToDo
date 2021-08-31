@@ -12,8 +12,10 @@ import java.util.function.Function;
 public class HbrUserStore extends HbrService implements UserStore {
 
     @Override
-    public void add(User user) {
-        tx(session -> session.save(user));
+    public void add(User user) { tx(
+            session -> session.save(user),
+            "add"
+        );
     }
 
     @Override
@@ -22,25 +24,33 @@ public class HbrUserStore extends HbrService implements UserStore {
                 session -> session
                         .createQuery("from model.User where login = :name", User.class)
                         .setParameter("name", name)
-                        .uniqueResult());
+                        .uniqueResult(),
+                "findByName"
+        );
     }
 
     @Override
     public User findById(String id) {
-        return this.tx((session) -> session.get(User.class, Integer.parseInt(id)));
+        return this.tx(
+                (session) -> session.get(User.class, Integer.parseInt(id)),
+                "findById"
+        );
     }
 
     @Override
     public List<User> findAll() {
-        return this.tx((session) -> session.createQuery("from model.User", User.class).list());
+        return this.tx(
+                (session) -> session.createQuery("from model.User", User.class).list()
+                , "findAll"
+        );
     }
 
-    private <T> T tx(final Function<Session, T> command) {
+    private <T> T tx(final Function<Session, T> command, String message) {
         Transaction transaction = null;
         try (Session session = super.sf.openSession()) {
             transaction = session.beginTransaction();
             T rsl = command.apply(session);
-            super.LOG.info("\nOperation completed successfully!\n");
+            super.LOG.info("\nOperation " + message + " in HbrUserStore completed successfully!\n");
             transaction.commit();
             return rsl;
         } catch (final Exception e) {

@@ -85,7 +85,7 @@ public class HbrItemStore extends HbrService implements ItemStore {
         try (Session session = super.sf.openSession()) {
             transaction = session.beginTransaction();
             T rsl = command.apply(session);
-            super.LOG.info("\nOperation " + message + " completed successfully!\n");
+         //   super.LOG.info("\nOperation " + message + " completed successfully!\n");
             transaction.commit();
             return rsl;
         } catch (final Exception e) {

@@ -59,7 +59,7 @@ function doneItem(user_id) {
 function sendData(user_id) { // отправка данных заявки
    // console.log("start sendData");
     let description = $('#description').val();
-    let itemCats = $('#itemCats').val().toString() ;
+    let itemCats = $('#itemCats').val();
     $.ajax ({
         url: "http://localhost:8080/job4j_todo/index",
         dataType: "json",
